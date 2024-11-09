@@ -1,0 +1,23 @@
+JC 		:= javac
+JVM		:= java
+
+OUT_DIR := out
+SRC_DIR	:= src
+SOURCES	:= $(shell find -name "*.java")
+CLASSES	:= $(SOURCES:.java=.class)
+
+MCP		:= learn.Main
+JAR		:= learn.jar
+
+run: $(CLASSES)
+	$(JVM) -cp $(OUT_DIR) $(MCP)
+
+%.class: %.java
+	$(JC) -d $(OUT_DIR) -cp $(SRC_DIR) $<
+
+jar: $(CLASSES)
+	jar cfe $(JAR) $(MCP) -C $(OUT_DIR) .
+
+.PHONY: clean
+clean:
+	@rm -rvf $(OUT_DIR)/**

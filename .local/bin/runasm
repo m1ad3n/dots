@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+	echo -e "\033[31;1merror >> provide a assembly file\033[0m"
+
+else
+	filename=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 10).runasm
+	fasm $1 /tmp/$filename >> /dev/null
+	/tmp/$filename $@
+
+	if [[ $# -eq 1 ]]; then
+		rm -rf /tmp/$filename
+	fi
+
+fi

@@ -1,0 +1,32 @@
+CC 		:= gcc
+CFLAGS 	:= -g -Wall -Wno-switch -Wextra -pedantic
+LDFLAGS :=
+
+GREEN	:= \e[1;32m
+RESET	:= \e[0m
+
+OUT_DIR	:= bin
+SRC_DIR	:= src
+TARGET	:= $(OUT_DIR)/$(notdir $(shell pwd))
+
+SRCS	:= $(shell find -name "*.c")
+OBJS	:= $(SRCS:$(SRC_DIR)/%.c=$(OUT_DIR)/%.o)
+
+$(TARGET): $(OBJS) | $(OUT_DIR)
+	@echo -en "LD $@"
+	@$(CC) -s -o $@ $(OBJS) $(LDFLAGS)
+	@echo -e " $(GREEN)PASS$(RESET)"
+
+%.o: %.c | $(OUT_DIR)
+	@echo -en "CC $<"
+	@$(CC) $(CFLAGS) -MMD -c -o $@ $<
+	@echo -e " $(GREEN)PASS$(RESET)"
+
+$(OUT_DIR):
+	@mkdir -p $@
+
+.PHONY: clean
+clean:
+	@rm -rvf ./$(OUT_DIR)
+
+-include $(wildcard $(OUT_DIR)/*.d)
