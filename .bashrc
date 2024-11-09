@@ -20,7 +20,7 @@ alias l='ls -lh'
 alias ll='ls -lha'
 alias lla='ls -la'
 alias lt='tree -C'
-# alias lta='lt -a'
+alias lta='lt -a'
 # alias llta='lta -l'
 # alias tree='ls --tree'
 
